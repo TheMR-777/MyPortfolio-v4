@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" data-mode="mixed">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3efe6" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Muhammad Ammar Khan | Ink &amp; Paper</title>
+    <meta name="description" content="Software architecture, security engineering, and tools that transform. Explore Muhammad Ammar Khan's work in Ink &amp; Paper, a living experiment in Mixed mode." />
+    <meta property="og:title" content="Muhammad Ammar Khan | Ink &amp; Paper" />
+    <meta property="og:description" content="Thoughtful systems. Quietly different design. A portfolio in light, dark, and the space in between." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23101217'/%3E%3Ccircle cx='32' cy='32' r='20' fill='%23f3efe6'/%3E%3Cpath d='M32 12a20 20 0 0 1 0 40z' fill='%23b4a0f5'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script>
+      (function () {
+        try {
+          var root = document.documentElement;
+          var mode = localStorage.getItem('mode');
+          if (['light', 'mixed', 'dark'].includes(mode)) root.dataset.mode = mode;
+          var colors = { iris: [262,84,49,76], ember: [24,88,35,73], moss: [152,62,27,70], rose: [345,78,42,77], tide: [198,86,31,73], gold: [44,90,28,74] };
+          var saved = JSON.parse(localStorage.getItem('accent') || 'null');
+          var color = saved && colors[saved.id];
+          if (color) {
+            root.style.setProperty('--ah', color[0]);
+            root.style.setProperty('--as', color[1] + '%');
+            root.style.setProperty('--accent-light', color[2] + '%');
+            root.style.setProperty('--accent-dark', color[3] + '%');
+          }
+          root.dataset.motion = localStorage.getItem('motion') === 'off' || matchMedia('(prefers-reduced-motion: reduce)').matches ? 'off' : 'on';
+        } catch (error) {}
+      })();
+    </script>
+  </head>
+  <body class="grain">
+    <div id="root"></div>
+    <noscript>This portfolio needs JavaScript for its interactive experience. Contact Muhammad Ammar Khan at m.shahzad.ms72@gmail.com.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
