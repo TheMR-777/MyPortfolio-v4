@@ -1,6 +1,14 @@
 import { useId } from "react";
 import { cn } from "../utils/cn";
 
+/** Cards in the Craft grid carry a full illustrated study. */
+const CRAFT_ART = new Set(["schemaflow", "mr-crypt", "schema-weaver", "moire", "letitgo", "githubify"]);
+/** Simpler studies, used only when a project is opened. */
+const SIMPLE_ART = new Set(["smart-cleanup", "myportfolio"]);
+
+export const hasCraftArt = (id: string) => CRAFT_ART.has(id);
+export const hasDialogArt = (id: string) => CRAFT_ART.has(id) || SIMPLE_ART.has(id);
+
 function Node({ x, y, label, width = 112 }: { x: number; y: number; label: string; width?: number }) {
   return (
     <g>
@@ -127,7 +135,7 @@ export function ProjectVisual({ id, className }: { id: string; className?: strin
           </>
         )}
 
-        {id === "ace-status" && (
+        {id === "overwatch" && (
           <>
             <ellipse cx="300" cy="110" rx="140" ry="105" fill={`url(#${wash})`} />
             <path d="M168 49h43q26 0 26 26v35h33M168 110h102M168 171h43q26 0 26-26v-35h33M332 110h43q26 0 26-26V57h39M332 110h108M332 110h43q26 0 26 26v27h39" stroke="var(--accent)" strokeOpacity=".4" className="diagram-trace" />
@@ -142,6 +150,39 @@ export function ProjectVisual({ id, className }: { id: string; className?: strin
               </g>
             ))}
             <text x="300" y="208" textAnchor="middle" fill="currentColor" opacity=".5">CONFIGURATION, NOT REIMPLEMENTATION</text>
+          </>
+        )}
+
+        {/* Mirror-symmetric around x=300: two service nodes left (centres 79/141),
+            a six-device fleet right (rows centred 91/129), one control plane at
+            the heart. Every connector has a mirrored twin. */}
+        {id === "apple-mdm" && (
+          <>
+            <ellipse cx="300" cy="110" rx="132" ry="100" fill={`url(#${wash})`} />
+
+            <Node x={88} y={62} label="nanoMDM · microMDM" width={140} />
+            <Node x={88} y={124} label="SCEP · certs" width={140} />
+            <path d="M228 79C244 79 246 97 264 97" stroke="currentColor" strokeOpacity=".3" className="diagram-trace" />
+            <path d="M228 141C244 141 246 123 264 123" stroke="currentColor" strokeOpacity=".3" className="diagram-trace" />
+
+            <rect x="264" y="84" width="72" height="52" rx="14" fill="var(--plate)" stroke="var(--accent)" strokeWidth="1.2" />
+            <text x="300" y="107" textAnchor="middle" fill="var(--accent)" style={{ fontSize: 13 }}>.NET</text>
+            <text x="300" y="122" textAnchor="middle" fill="currentColor" opacity=".5" style={{ fontSize: 8 }}>CONTROL</text>
+
+            <path d="M336 97C354 97 356 91 393 91" stroke="var(--accent)" strokeOpacity=".4" />
+            <path d="M336 123C354 123 356 129 393 129" stroke="var(--accent)" strokeOpacity=".4" />
+            {Array.from({ length: 6 }, (_, index) => (
+              <rect
+                key={index}
+                x={393 + (index % 3) * 36} y={79 + Math.floor(index / 3) * 38}
+                width="26" height="24" rx="4"
+                fill={index === 1 ? "var(--accent)" : "var(--plate)"}
+                fillOpacity={index === 1 ? ".2" : "1"}
+                stroke={index === 1 ? "var(--accent)" : "currentColor"}
+                strokeOpacity={index === 1 ? ".9" : ".24"}
+              />
+            ))}
+            <text x="300" y="207" textAnchor="middle" fill="currentColor" opacity=".5">ONE PLANE. ENROLL, RESTRICT, AUDIT.</text>
           </>
         )}
       </svg>
@@ -162,6 +203,21 @@ export function CraftVisual({ id }: { id: string }) {
       <span className="text-[8px] uppercase tracking-[.2em] text-plate-faint">A more fluent way to think</span>
       <span className="mt-4 text-[12px] text-plate-fg">bytes <span className="px-1 text-accent">|</span> encrypt <span className="px-1 text-accent">|</span> encode</span>
       <span className="mt-2 text-[9px] text-plate-faint">C++23. Less ceremony.</span>
+    </div>
+  );
+  /* Minor tools get a typographic plate, not a fabricated architecture diagram. */
+  if (id === "smart-cleanup") return (
+    <div className="craft-art flex flex-col justify-center px-7 font-mono" aria-hidden="true">
+      <span className="text-[8px] uppercase tracking-[.2em] text-plate-faint">The whole idea</span>
+      <span className="mt-4 text-[12px] text-plate-fg">paths <span className="px-1 text-accent">/</span> rules <span className="px-1 text-accent">/</span> schedule</span>
+      <span className="mt-2 text-[9px] text-plate-faint">Nothing clever. Just tidy.</span>
+    </div>
+  );
+  if (id === "myportfolio") return (
+    <div className="craft-art flex flex-col justify-center px-7" aria-hidden="true">
+      <span className="font-mono text-[8px] uppercase tracking-[.2em] text-plate-faint">The portfolio before this one</span>
+      <span className="mt-4 font-serif text-[26px] leading-tight">Acrylic, mica, <em className="text-accent">frost.</em></span>
+      <span className="mt-2 font-mono text-[9px] text-plate-faint">Every quiet zone, deliberate.</span>
     </div>
   );
   return (
@@ -199,6 +255,7 @@ export function CraftVisual({ id }: { id: string }) {
           <text x="221" y="81" fill="var(--accent)" style={{ fontFamily: "var(--font-display)", fontSize: 35 }}>Hello.</text>
           <text x="35" y="108" fill="currentColor" opacity=".35" style={{ fontSize: 8 }}>MARKDOWN</text><text x="222" y="108" fill="currentColor" opacity=".35" style={{ fontSize: 8 }}>BEAUTIFUL HTML</text>
         </>}
+
       </svg>
     </div>
   );

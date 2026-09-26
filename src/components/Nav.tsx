@@ -7,7 +7,8 @@ import { GithubIcon } from "./Icons";
 import { Dialog } from "./Dialog";
 import { useTheme } from "../theme/ThemeProvider";
 
-const navSections = sections.filter((section) => !["contact", "skills"].includes(section.id));
+/** Skills, Vision and Contact live in the menu and search rather than crowding the pill. */
+const pillSections = sections.filter((section) => !["contact", "skills", "vision"].includes(section.id));
 
 export function Nav() {
   const [active, setActive] = useState("top");
@@ -26,7 +27,7 @@ export function Nav() {
 
   function updateActive() {
     let current = "top";
-    for (const section of navSections) {
+    for (const section of pillSections) {
       if ((document.getElementById(section.id)?.getBoundingClientRect().top ?? Infinity) <= 175) current = section.id;
     }
     if (current !== activeRef.current) { activeRef.current = current; setActive(current); }
@@ -51,7 +52,7 @@ export function Nav() {
             <span className="text-[12px] font-semibold tracking-tight sm:text-[13px]">{personal.handle}</span>
           </a>
           <ul className="hidden items-center lg:flex">
-            {navSections.map((section) => (
+            {pillSections.map((section) => (
               <li key={section.id}>
                 <a href={`#${section.id}`} className="nav-link" data-active={active === section.id} aria-current={active === section.id ? "location" : undefined} onClick={(event) => navigate(event, section.id)}>
                   {section.nav}

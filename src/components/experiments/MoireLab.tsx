@@ -1,5 +1,6 @@
 import { useId, useState } from "react";
 import { RotateCcw } from "lucide-react";
+import { Label } from "../ui";
 
 export function MoireLab() {
   const [angle, setAngle] = useState(6);
@@ -8,7 +9,7 @@ export function MoireLab() {
     <section className="plate mt-8 rounded-2xl p-5 sm:p-6" aria-labelledby={`${id}-title`}>
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="eyebrow text-plate-faint">An interactive study</p>
+          <Label onPlate>An interactive study</Label>
           <h3 id={`${id}-title`} className="mt-2 font-serif text-2xl">A small rotation. A new pattern.</h3>
         </div>
         <button type="button" className="icon-button text-plate-muted" aria-label="Reset rotation to six degrees" onClick={() => setAngle(6)}><RotateCcw className="h-4 w-4" /></button>

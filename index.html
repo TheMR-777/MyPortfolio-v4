@@ -22,13 +22,21 @@
           if (['light', 'mixed', 'dark'].includes(mode)) root.dataset.mode = mode;
           var colors = { iris: [262,84,49,76], ember: [24,88,35,73], moss: [152,62,27,70], rose: [345,78,42,77], tide: [198,86,31,73], gold: [44,90,28,74] };
           var saved = JSON.parse(localStorage.getItem('accent') || 'null');
-          var color = saved && colors[saved.id];
-          if (color) {
-            root.style.setProperty('--ah', color[0]);
-            root.style.setProperty('--as', color[1] + '%');
-            root.style.setProperty('--accent-light', color[2] + '%');
-            root.style.setProperty('--accent-dark', color[3] + '%');
+          var id = saved && colors[saved.id] ? saved.id : null;
+          // First-ever visit: a random first impression, applied before first
+          // paint so there is no flash. It is NOT saved — only a deliberate
+          // choice in the theme dock is remembered. React reads the pick from
+          // data-first-accent so both sides agree on the same colour.
+          if (!id) {
+            var ids = Object.keys(colors);
+            id = ids[Math.floor(Math.random() * ids.length)];
+            root.dataset.firstAccent = id;
           }
+          var color = colors[id];
+          root.style.setProperty('--ah', color[0]);
+          root.style.setProperty('--as', color[1] + '%');
+          root.style.setProperty('--accent-light', color[2] + '%');
+          root.style.setProperty('--accent-dark', color[3] + '%');
           root.dataset.motion = localStorage.getItem('motion') === 'off' || matchMedia('(prefers-reduced-motion: reduce)').matches ? 'off' : 'on';
         } catch (error) {}
       })();

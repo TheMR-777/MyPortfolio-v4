@@ -5,6 +5,8 @@ import { PortfolioProvider } from "./context/PortfolioContext";
 import { Hero } from "./components/sections/Hero";
 import { ModeShowcase } from "./components/sections/ModeShowcase";
 import { Work } from "./components/sections/Work";
+import { Orchestration } from "./components/sections/Orchestration";
+import { Craft } from "./components/sections/Craft";
 import { Philosophy } from "./components/sections/Philosophy";
 import { Contact, Journey } from "./components/sections/Journey";
 import { ProjectDialog } from "./components/ProjectDialog";
@@ -21,6 +23,8 @@ export default function App() {
             <Hero />
             <ModeShowcase />
             <Work />
+            <Orchestration />
+            <Craft />
             <Philosophy />
             <Journey />
           </main>

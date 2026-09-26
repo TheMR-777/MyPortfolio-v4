@@ -50,10 +50,29 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const saved = stored("mode");
     return MODES.includes(saved as Mode) ? saved as Mode : "mixed";
   });
-  const [accent, setAccentState] = useState<Accent>(() => {
-    try { return ACCENTS.find((a) => a.id === JSON.parse(stored("accent") ?? "null")?.id) ?? ACCENTS[0]; }
-    catch { return ACCENTS[0]; }
+  /**
+   * Accent, and whether the visitor *chose* it.
+   *
+   * On a first-ever visit — nothing saved — the starting accent is picked at
+   * random, so every visitor's first look is a slightly different portfolio.
+   * But a random first impression is not a preference: it lives in memory only
+   * and is never written to storage. The moment the visitor explicitly picks a
+   * swatch (dock, palette, or reset), `accentChosen` flips and from then on
+   * their choice is persisted and honoured on every return. Respecting a
+   * deliberate choice always beats surprising someone twice.
+   */
+  const [accentState, setAccentInternal] = useState<{ accent: Accent; chosen: boolean }>(() => {
+    try {
+      const saved = ACCENTS.find((a) => a.id === JSON.parse(stored("accent") ?? "null")?.id);
+      if (saved) return { accent: saved, chosen: true };
+    } catch { /* fall through to a fresh first impression */ }
+    // The pre-paint bootstrap in index.html already picked a random accent to
+    // avoid a flash; adopt the same one so React and the first paint agree.
+    const first = ACCENTS.find((a) => a.id === document.documentElement.dataset.firstAccent);
+    return { accent: first ?? ACCENTS[Math.floor(Math.random() * ACCENTS.length)], chosen: false };
   });
+  const accent = accentState.accent;
+  const setAccentState = useCallback((next: Accent) => setAccentInternal({ accent: next, chosen: true }), []);
   const [motionEnabled, setMotionEnabled] = useState(() => stored("motion") !== "off");
   const [persistenceAvailable, setPersistenceAvailable] = useState(true);
   const systemReducedMotion = useReducedMotion() ?? false;
@@ -74,8 +93,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     style.setProperty("--as", `${accent.s}%`);
     style.setProperty("--accent-light", `${accent.light}%`);
     style.setProperty("--accent-dark", `${accent.dark}%`);
+    // Only a deliberate choice is remembered. A random first impression stays
+    // in memory, so the next visit is free to make a different one.
+    if (!accentState.chosen) return;
     try { localStorage.setItem("accent", JSON.stringify(accent)); } catch { setPersistenceAvailable(false); }
-  }, [accent]);
+  }, [accent, accentState.chosen]);
 
   useLayoutEffect(() => {
     document.documentElement.dataset.motion = reduceMotion ? "off" : "on";

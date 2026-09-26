@@ -23,7 +23,7 @@ function MiniPage({ mode }: { mode: Mode }) {
         <div className="plate relative overflow-hidden rounded-xl p-3">
           <p className="preview-label text-plate-faint">01 / ARCHITECTURE</p>
           <svg viewBox="0 0 150 32" className="my-2 h-8 w-full text-accent" fill="none">
-            <path d="M0 27H18L25 19L34 24L46 8L60 18L70 13L81 16L93 3L108 12L125 5L150 7" stroke="currentColor" strokeWidth="1.2" />
+            <path d="M0 27H18L25 19L34 24L46 8L60 18L70 13L81 16L93 3L108 12L125 5L150 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M0 31H150" stroke="currentColor" opacity=".15" />
           </svg>
           <span className="text-[9px] text-plate-muted">Complexity, considered.</span>
@@ -106,9 +106,19 @@ export function ModeShowcase() {
           <span>Under the surface <span className="ml-2 font-mono text-[9px] text-ink-faint">/ A little design engineering</span></span>
           <Plus className="h-4 w-4 transition-transform group-open:rotate-45" />
         </summary>
-        <div className="grid gap-5 pb-6 sm:grid-cols-2 sm:gap-12">
+        <div className="grid items-start gap-5 pb-6 sm:grid-cols-2 sm:gap-12">
           <p className="max-w-md text-xs leading-[1.9] text-ink-muted">Two surface roles, not three separate websites. Every component inherits its material and its accent contrast. Your preference is remembered locally; no account or tracking is needed.</p>
-          <pre className="overflow-x-auto font-mono text-[11px] leading-[1.9] text-ink-muted"><code><span className="text-accent">{MODE_META[mode].label.toLowerCase()}</span>{` {\n  paper: ${surfaces[mode].paper};\n  plate: ${surfaces[mode].plate};\n  accent: ${accent.name.toLowerCase()};\n}`}</code></pre>
+          {/* A genuine little editor window: the plate material does the work,
+              so the snippet reads as code even before you read a word of it. */}
+          <div className="plate overflow-hidden rounded-2xl">
+            <div className="flex items-center gap-1.5 border-b border-plate-line px-4 py-2.5" aria-hidden="true">
+              <span className="h-2 w-2 rounded-full bg-plate-faint/50" />
+              <span className="h-2 w-2 rounded-full bg-plate-faint/50" />
+              <span className="h-2 w-2 rounded-full bg-accent" />
+              <span className="ml-2 font-mono text-[9px] tracking-wide text-plate-faint">theme.config — live</span>
+            </div>
+            <pre className="overflow-x-auto p-4 font-mono text-[11px] leading-[1.9]"><code><span className="text-accent">{MODE_META[mode].label.toLowerCase()}</span><span className="text-plate-muted">{` {\n  `}</span><span className="text-plate-faint">paper:</span><span className="text-plate-muted">{` ${surfaces[mode].paper};\n  `}</span><span className="text-plate-faint">plate:</span><span className="text-plate-muted">{` ${surfaces[mode].plate};\n  `}</span><span className="text-plate-faint">accent:</span><span className="text-plate-muted">{` ${accent.name.toLowerCase()};\n}`}</span></code></pre>
+          </div>
         </div>
       </details>
       <p className="material-note mt-8 text-center font-mono text-[9px] uppercase tracking-[.15em] text-ink-faint">Made to be tried. Not just looked at.</p>
