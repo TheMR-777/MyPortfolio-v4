@@ -4,16 +4,22 @@ import { projects, type Project } from "../data/portfolio";
 export const sections = [
   { id: "mode", label: "Mixed mode", nav: "Mode", description: "The Ink & Paper experiment" },
   { id: "work", label: "Selected work", nav: "Work", description: "Enterprise systems and architecture" },
+  { id: "orchestration", label: "Agentic engineering", nav: "Orchestration", description: "Directing AI agents, with the quality line held" },
   { id: "craft", label: "Personal craft", nav: "Craft", description: "Open-source tools and small experiments" },
   { id: "philosophy", label: "Philosophy", nav: "Philosophy", description: "Curiosity, discovery, and restraint" },
   { id: "skills", label: "Skills & depth", nav: "Skills", description: "Languages and engineering fundamentals" },
   { id: "journey", label: "Experience & journey", nav: "Journey", description: "The path from curiosity to architecture" },
+  { id: "vision", label: "The longer view", nav: "Vision", description: "Why the work matters, beyond the work" },
   { id: "contact", label: "Say hello", nav: "Contact", description: "Start a conversation" },
 ];
 
+/** Keeps links shared before a project was renamed working. */
+const projectAliases: Record<string, string> = { "ace-status": "overwatch" };
+const resolveProject = (id: string | null) =>
+  projects.find((project) => project.id === (id && projectAliases[id] ? projectAliases[id] : id)) ?? null;
+
 function projectFromUrl() {
-  const id = new URLSearchParams(window.location.search).get("project");
-  return projects.find((project) => project.id === id) ?? null;
+  return resolveProject(new URLSearchParams(window.location.search).get("project"));
 }
 
 function updateHistory(url: URL, push = false) {
@@ -53,11 +59,11 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   }, [selectedProject]);
 
   const openProject = useCallback((id: string) => {
-    const project = projects.find((entry) => entry.id === id);
+    const project = resolveProject(id);
     if (!project) return;
     const url = new URL(window.location.href);
     const isReplacingProject = url.searchParams.has("project");
-    url.searchParams.set("project", id);
+    url.searchParams.set("project", project.id);
     updateHistory(url, !isReplacingProject);
     setSearchOpen(false);
     setSelectedProject(project);

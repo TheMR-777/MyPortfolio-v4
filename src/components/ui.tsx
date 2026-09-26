@@ -19,6 +19,11 @@ export function Section({
   );
 }
 
+/**
+ * Section-level act marker. The accent dash is deliberate: it is the one
+ * recurring accent the reader learns to follow down the page.
+ * Sub-blocks use `Label` instead, so this stays meaningful.
+ */
 export function Eyebrow({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <div className={cn("flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] leading-relaxed text-ink-faint", className)}>
@@ -26,6 +31,11 @@ export function Eyebrow({ children, className }: { children: React.ReactNode; cl
       {children}
     </div>
   );
+}
+
+/** Sub-block marker. No accent — quieter than an Eyebrow on purpose. */
+export function Label({ children, className, onPlate }: { children: React.ReactNode; className?: string; onPlate?: boolean }) {
+  return <p className={cn("label", onPlate ? "text-plate-faint" : "text-ink-faint", className)}>{children}</p>;
 }
 
 export function Heading({ children, className }: { children: React.ReactNode; className?: string }) {

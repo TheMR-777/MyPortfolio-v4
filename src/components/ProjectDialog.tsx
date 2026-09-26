@@ -5,8 +5,9 @@ import { personal, projects, type Project } from "../data/portfolio";
 import { caseStudies } from "../data/caseStudies";
 import { useClipboard } from "../hooks/useClipboard";
 import { Dialog } from "./Dialog";
-import { ProjectVisual, CraftVisual } from "./ProjectVisual";
+import { ProjectVisual, CraftVisual, hasDialogArt } from "./ProjectVisual";
 import { StyledText } from "./StyledText";
+import { Label } from "./ui";
 import { GithubIcon } from "./Icons";
 import { MoireLab } from "./experiments/MoireLab";
 
@@ -40,7 +41,7 @@ function CaseContent({ project }: { project: Project }) {
       </div>
       {error && <div className="border-b border-line px-6 py-3"><p className="mb-2 text-xs text-ink-muted" role="status">Clipboard access is unavailable. Select and copy this link instead.</p><input aria-label="Project link to copy" value={link.href} readOnly onFocus={(event) => event.currentTarget.select()} className="w-full rounded-lg border border-line bg-paper-2 p-2 font-mono text-xs" /></div>}
       <div className="plate case-cover px-6 pt-7 sm:px-9 sm:pt-9">
-        <p className="eyebrow text-plate-faint">{project.kind}</p>
+        <Label onPlate>{project.kind}</Label>
         <h2 ref={title} id="case-study-title" data-autofocus tabIndex={-1} className="mt-4 max-w-2xl font-serif text-[2.45rem] leading-[1.04] tracking-tight outline-none sm:text-5xl">{project.title}</h2>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-plate-muted">{study?.thesis ?? project.summary}</p>
         {study ? (
@@ -48,14 +49,14 @@ function CaseContent({ project }: { project: Project }) {
             <ProjectVisual id={project.id} />
             <figcaption className="pb-4 text-center font-mono text-[8px] uppercase tracking-[.17em] text-plate-faint">Conceptual architecture study / No production data</figcaption>
           </figure>
-        ) : project.personal ? <div className="mt-6 overflow-hidden rounded-t-xl"><CraftVisual id={project.id} /></div> : <div className="h-8" />}
+        ) : project.personal && hasDialogArt(project.id) ? <div className="mt-6 overflow-hidden rounded-t-xl"><CraftVisual id={project.id} /></div> : <div className="h-8" />}
       </div>
       <div className="grid gap-8 px-6 py-8 sm:px-9 sm:py-10 md:grid-cols-[180px_1fr] md:gap-10">
         <aside>
           <dl className="grid grid-cols-2 gap-5 md:grid-cols-1 md:gap-6">
-            {study && <><div><dt className="eyebrow text-ink-faint">My role</dt><dd className="mt-2 text-xs leading-relaxed text-ink-muted">{study.role}</dd></div><div><dt className="eyebrow text-ink-faint">Timeframe</dt><dd className="mt-2 text-xs leading-relaxed text-ink-muted">{study.period}</dd></div></>}
-            <div><dt className="eyebrow text-ink-faint">Built with</dt><dd className="mt-2 space-y-1.5 font-mono text-[10px] leading-relaxed text-ink-muted">{project.tech.map((tech) => <span key={tech} className="block">{tech}</span>)}</dd></div>
-            <div><dt className="eyebrow text-ink-faint">Access</dt><dd className="mt-2 text-xs text-ink-muted">{project.personal ? "Open source" : "Private enterprise work"}</dd></div>
+            {study && <><div><dt><Label>My role</Label></dt><dd className="mt-2 text-xs leading-relaxed text-ink-muted">{study.role}</dd></div><div><dt><Label>Timeframe</Label></dt><dd className="mt-2 text-xs leading-relaxed text-ink-muted">{study.period}</dd></div></>}
+            <div><dt><Label>Built with</Label></dt><dd className="mt-2 space-y-1.5 font-mono text-[10px] leading-relaxed text-ink-muted">{project.tech.map((tech) => <span key={tech} className="block">{tech}</span>)}</dd></div>
+            <div><dt><Label>Access</Label></dt><dd className="mt-2 text-xs text-ink-muted">{project.personal ? "Open source" : "Private enterprise work"}</dd></div>
           </dl>
           <div className="mt-6 flex flex-col items-start gap-3 border-t border-line pt-5">
             {project.link && <a href={project.link} target="_blank" rel="noreferrer" className="text-link text-[11px] text-accent">{project.link.includes("github.com") ? "View on GitHub" : "Visit the project"}<ArrowUpRight className="h-3.5 w-3.5" /></a>}
@@ -72,6 +73,19 @@ function CaseContent({ project }: { project: Project }) {
               <h3 className="font-serif text-2xl">The decisions that mattered.</h3>
               <ol className="mt-5 space-y-5">{study.decisions.map((decision, i) => <li key={decision.title} className="flex gap-3"><span className="pt-0.5 font-mono text-[9px] text-accent">0{i + 1}</span><div><h4 className="text-xs font-semibold">{decision.title}</h4><p className="mt-1.5 text-xs leading-[1.85] text-ink-muted">{decision.detail}</p></div></li>)}</ol>
             </section>
+            {study.modules && (
+              <section className="case-section">
+                <h3 className="font-serif text-2xl">Inside the system.</h3>
+                <ul className="mt-5 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+                  {study.modules.map((module) => (
+                    <li key={module.name}>
+                      <h4 className="text-xs font-semibold text-accent">{module.name}</h4>
+                      <p className="mt-1.5 text-xs leading-[1.85] text-ink-muted">{module.detail}</p>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
           </>}
           {project.id === "moire" && <MoireLab />}
           {project.impact && <section className="case-section"><h3 className="font-serif text-2xl">What changed.</h3><p className="mt-1.5 font-mono text-[8px] uppercase tracking-widest text-ink-faint">Reported project outcomes</p><ul className="mt-5 space-y-3">{project.impact.map((impact) => <li key={impact} className="flex gap-3 text-[13px] leading-relaxed"><Check className="mt-0.5 h-3.5 w-3.5 text-accent" /><span>{impact}</span></li>)}</ul></section>}

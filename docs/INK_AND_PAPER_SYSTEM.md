@@ -60,11 +60,154 @@ The portfolio is a sequence of editorial acts, not a collection of widgets:
 1. **Hero:** authorship, positioning, first invitation.
 2. **Mode:** the product idea and an invitation to try it.
 3. **Work:** evidence through systems and decisions.
-4. **Craft:** smaller personal tools and curiosity.
-5. **Philosophy and skills:** the thinking beneath the output.
-6. **Journey:** proof over time, followed by a clear human invitation.
+4. **Orchestration:** how the work gets built now, and the quality line around it.
+5. **Craft:** smaller personal tools and curiosity.
+6. **Philosophy and skills:** the thinking beneath the output, and the interests that feed it.
+7. **Journey:** proof over time, formative stories, then a clear human invitation.
+
+Sections carry a visible ordinal in their eyebrow (`01 /` through `06 /`). If you add, remove, or reorder a section, renumber every eyebrow and update `sections` in `src/context/PortfolioContext.tsx` so the navigation, mobile menu, and search stay in sync.
+
+### Sub-blocks and the coda
+
+Not every idea earns its own act. These live inside an existing section and carry no ordinal:
+
+- **Beyond computer science** (inside Philosophy): the three interests, each tied to the shipped work it demonstrably fed. If an interest has no such tie, render it as plain text rather than inventing a link.
+- **The stories behind the timeline** and **Study & certification** (inside Journey): quiet reference content, the latter behind a collapsed `details`.
+- **The longer view** (`#vision`, inside Journey): an unnumbered ink coda stating personal conviction. It is framed explicitly as a conviction, never as a forecast, and is deliberately excluded from the desktop pill (`pillSections` in `Nav.tsx`) to keep that control from crowding — it remains reachable through the mobile menu, search, and deep link.
+
+Keep this rule: a new idea becomes a numbered act only if it changes how the reader understands the work. Otherwise it is a sub-block.
 
 Each section should have one job. Do not combine several jobs just because they share a theme.
+
+## The Three Accent Budgets
+
+Restraint fails when it is a feeling. It holds when it is a count. These three
+devices are the ones most likely to multiply silently, so each has a budget.
+
+### 1. The accent focus word in a heading
+
+An `<em className="text-accent">` inside a heading. This is the intended
+"spark" — nearly every section heading carries exactly **one** accented focus
+word that gives it a point of attention. That is a feature, not a leak.
+
+The two rules that keep it from becoming wallpaper:
+
+- **One per heading, never more.** A heading with two accented words has no
+  focus. Choose the single most important word.
+- **Prefer a mid-heading focus word over a closing tail.** `Systems that
+  [changed] how a company works` reads with more life than a predictable
+  `... how a company [works.]` The eye wants the accent to land inside the
+  thought, not just at its end. A closing accent is fine when the last word
+  genuinely is the point (the hero name, *tested.*, *knowing.*), but reach for
+  the interior word first.
+
+Purely structural or reference headings (a collapsed `details` summary, a quiet
+sub-block title) may stay unaccented — silence between sparks is what lets each
+one register.
+
+### 2. Large accent serif numerals
+
+Big figures in `font-serif ... text-accent`.
+
+**Budget: the hero identity plate only.** Small index markers are a different
+device: the `01`/`02`/`03` numerals introducing principle lists (Mode,
+Philosophy) use accent italics as list markers, matching the philosophy
+principle numbers — they orient, they don't shout.
+
+Nowhere else. Stats elsewhere are set as a single quiet mono line —
+`13 mentors · 50+ sessions · 20+ students` — which carries the fact without
+competing with the hero for the reader's first impression.
+
+### 3. The eyebrow's accent dash
+
+`Eyebrow` carries a short accent rule. It is the one recurring accent the
+reader learns to follow down the page, so it marks **section-level acts only**
+(`01 /` through `06 /`).
+
+Sub-blocks use `Label` — same typographic voice, no dash. A page where every
+sub-block also claims an eyebrow has no hierarchy left, only noise.
+
+Control surfaces (the theme dock, the mobile menu) are not page content and may
+use an eyebrow freely.
+
+## Ink Plate Placement
+
+The footer is the page's single closing gesture — the one place ink rises to
+full bleed at the end. **Never place a full-bleed ink plate immediately before
+it.** Two stacked slabs deaden the ending. Forward-looking conviction belongs
+on paper, as reading.
+
+## The Hand-Drawn Layer
+
+The site is called Ink & Paper, so the pen must show occasionally — but the
+vocabulary is deliberately split in two:
+
+- **Technical studies stay machine-crisp.** `ProjectVisual` architecture
+  diagrams (EMS, Overwatch, MDM, Vault…) use exact geometry because precision
+  *is* the engineering claim. Never apply a sketch effect to them.
+- **Editorial moments may be sketched — with smooth, randomized curves, never
+  an SVG turbulence filter.** `src/components/HandDrawn.tsx` builds every
+  stroke from a handful of randomized points threaded through a Catmull-Rom
+  spline (`smoothPath` + `wobble`). This was a deliberate correction: an
+  earlier version used `feTurbulence` + `feDisplacementMap`, which displaces
+  geometry as pixel-level noise. That reads as loose linework on a large
+  shape, but on a *short* stroke — an underline, a signature, a 5px hatch
+  mark — the noise wavelength dwarfs the shape and it collapses into an
+  illegible scribble. A curve smoothed through a few jittered points stays
+  legible at any size, because the randomness lives in the points, not the
+  render. **Do not reintroduce a turbulence/displacement filter here.**
+  - `HandStrata` — the sketched geological layers beside "the work beneath the
+    work." Regenerated once per mount (`useMemo(..., [])`), so each page load
+    lays out its own strata; hatch ticks are plain straight segments at a
+    randomized angle, which is what keeps a 5px mark from turning to noise.
+  - `HandUnderline` — a pen line that draws itself under a quiet-work row's
+    title on hover/focus (`pathLength` dash reveal; appears instantly under
+    reduced motion). Accepts a `seed` prop that is *only* a `useMemo` key —
+    passing a fresh value (the quiet-work rows reroll it on every
+    pointer-enter/focus) redraws a new, equally smooth squiggle, so the same
+    row never traces quite the same line twice.
+  - `HandFlourish` — the stroke beneath the footer signature, and the one
+    place where "hand-drawn" must mean *elegant*, not *rough*. It is a single
+    calligraphic gesture: three cubic Béziers (a long shallow arc, a rise into
+    the crest, a small terminal curl) joined with **C1 continuity** — the
+    control point leaving each joint is the mirror of the one arriving, so the
+    tangent never changes direction abruptly. Per-visit variation is applied to
+    the *gesture parameters* (arc depth, curl radius, where the pen lifts),
+    never to individual points. An earlier version sampled a wave through 7
+    jittered points; even smoothed, those tiny course-corrections read as a
+    hand that hesitated. A signature is confidence with a little breath in it.
+
+One stroke per moment, not several stacked together. This is a hard rule,
+learned twice: the quiet-work row carries the margin underline alone (its arrow
+stays a plain lucide `ArrowUpRight`), and the underline itself is **one path**.
+An earlier version drew a second, fainter "ghost" pass with its own random
+points; because the two wobbles diverged, it read as two separate lines — one
+from the left, one that seemed to start mid-word and trail off. A pen makes
+one mark. Restraint applies to ink exactly as it applies to accent color: if
+everything is sketched, nothing reads as a hand.
+
+When extending this file: keep amplitudes small (roughly 1–2 units in a
+~100-unit viewBox), use round caps/joins, taper amplitude to zero at both ends
+of a line with the sine envelope in `wobble()` so a stroke never meets a
+neighboring shape at a hard angle, and remember the rule — **hand-drawn means
+"a person was here," so reserve it for human moments.** Sketching a monitoring
+pipeline would say the wrong thing about the work.
+
+## Illustration Honesty
+
+A diagram must state what the system actually does. Two specific obligations:
+
+- **Parallel nodes imply equivalence.** If two things are alternatives rather
+  than peers, render them as one node naming both (`nanoMDM · microMDM`), and
+  give genuinely different concerns their own branch. A three-way fan-out where
+  two are substitutes is a factual error, not a simplification.
+- **Show the interesting mechanism, not just the flow.** The orchestration
+  diagram draws a coordination rail between the specialists because that shared
+  bus is the point; a plain funnel would hide it.
+
+Minor personal tools get a **typographic plate** (see `mr_crypt`,
+`smart-cleanup`, `myportfolio` in `ProjectVisual.tsx`) rather than an invented
+architecture diagram. Do not manufacture structure a project does not have.
 
 ### Spacing Rules
 

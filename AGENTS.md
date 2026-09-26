@@ -57,6 +57,8 @@ This portfolio intentionally gives the eye quiet places to rest.
 
 - One clear headline per section.
 - One accent should lead at a time.
+- **Follow the accent discipline** documented in `docs/INK_AND_PAPER_SYSTEM.md`: a section heading carries exactly one accented focus word (the intended "spark"), preferring a mid-heading word over a predictable closing tail; large accent serif numerals appear only in the hero identity plate; the eyebrow's accent dash marks section-level acts only, with `Label` for sub-blocks. One spark per heading — never zero for a lead heading, never two.
+- Never place a full-bleed ink plate immediately before the footer.
 - Prefer a short, exact sentence over a second paragraph.
 - Prefer one strong visual study over stock photography, a generic illustration, or a collage.
 - Avoid gratuitous gradients, glass effects, blobs, badges, animated counters, and excessive rounded rectangles.
@@ -76,7 +78,7 @@ Motion should orient, reveal, or give feedback. It should never perform for its 
 
 An interaction is not complete when it looks clickable. It is complete when it works by mouse, keyboard, touch, and screen reader.
 
-- Native controls first: `button`, `a`, `details`, `input`, and `dialog` where appropriate.
+- Native controls first: `button`, `a`, `details`, `input`, and `dialog` where appropriate. Exception: the experience accordion in `Journey.tsx` uses a button + height-animated panel (`ExperienceItem`) because native `<details>` snaps open harshly next to the editorial reveals; quiet reference disclosures (writing shelf, certifications, orchestration stack) keep native `<details>`.
 - Every icon-only button needs an accessible name.
 - Keep visible focus states intact.
 - Dialogs must support Escape, outside-click dismissal where appropriate, focus placement, focus restoration, and a visible close button. Reuse `src/components/Dialog.tsx`.
@@ -102,9 +104,10 @@ The best presentation is credible.
 | Modes, accents, persistence, motion preference | `src/theme/ThemeProvider.tsx` | Use `setMode`, `setAccent`, and `useTheme`; do not write theme storage ad hoc. |
 | Main portfolio content | `src/data/portfolio.ts` | Keep content normalized and use the existing inline markup where needed. |
 | Detailed project narratives | `src/data/caseStudies.ts` | Keep enterprise descriptions architectural and truthful. |
-| Project navigation, search state, deep links | `src/context/PortfolioContext.tsx` | Use `usePortfolio`; preserve `?project=<id>` behavior. |
+| Project navigation, search state, deep links | `src/context/PortfolioContext.tsx` | Use `usePortfolio`; preserve `?project=<id>` behavior. If a project is renamed, add the old id to `projectAliases` so shared links keep working. |
 | Rich text markup | `src/components/StyledText.tsx` | Use `StyledText` for data-backed marked-up text. Do not inject HTML. |
-| Project illustrations | `src/components/ProjectVisual.tsx` | Keep them abstract, semantic, and explicitly non-production. |
+| Project illustrations | `src/components/ProjectVisual.tsx` | Keep them abstract, semantic, and explicitly non-production. `hasCraftArt` gates the illustrated Craft grid cards; `hasDialogArt` is the wider set used inside the project dialog. Add a new personal project to `SIMPLE_ART` if it only warrants a simple study, so its dialog is never an empty spacer. |
+| Hand-drawn ink accents | `src/components/HandDrawn.tsx` | Smooth, randomized Catmull-Rom curves for *human* editorial moments only (strata motif, margin underline, signature flourish) — never an SVG turbulence/displacement filter, which collapses short strokes into an illegible scribble. Architecture studies stay crisp — precision is the engineering claim. One hand-drawn touch per moment. See "The Hand-Drawn Layer" in the design doc. |
 | Dialog behavior | `src/components/Dialog.tsx` | Reuse for all modal experiences. |
 
 ## Content And Visual Workflow
@@ -150,11 +153,14 @@ The best presentation is credible.
 
 - The markup engine supports `[hi]`, `[ac]`, `[em]`, `[dim]`, `[code]`, `[i]`, `[dt]`, `[c=...]`, and `<br />`.
 - Use it sparingly. A markup tag must create hierarchy, not decorate every sentence.
+- `[hi]` renders differently by context, deliberately: in body copy it is clean semibold; inside display serif (headings, pull quotes, the vision statement) it becomes the **pencil marginalia** mark — an italic phrase with a soft highlighter wash behind it. Never underline running-text emphasis; a horizontal rule under text is crossed by descenders and reads as strikethrough. The wash is a uniform/horizontal-fade fill surrounding the glyphs, never a band at a fixed percentage of the line box (that bisects the letters — a previous bug). Do not "simplify" it back to bold or an underline.
 - Keep raw data free of JSX. It must remain searchable and reusable by the command palette.
 
 ### Visual Studies And Experiments
 
 - `ProjectVisual` is a diagram language: relationships, layers, flow, coverage, validation, and boundaries.
+- A diagram must be architecturally true. Alternatives are one node naming both, not parallel peers in a fan-out. Draw the mechanism that makes the system interesting, not merely its direction of flow.
+- Minor personal tools get a typographic plate, never an invented architecture diagram.
 - A new visual should explain the project’s unique idea. Do not copy a diagram motif just to fill a card.
 - Make interactive demos simple enough to understand in a few seconds. The Horner and Moire labs are models: one input, immediate consequence, a short explanatory sentence.
 
@@ -163,9 +169,12 @@ The best presentation is credible.
 - Mixed mode remains the default mode.
 - The theme dock remains accessible, persistent, and usable on small screens.
 - Accent selection changes both paper and plate contexts correctly.
+- **A random first impression is never persisted.** On a first-ever visit the starting accent is picked at random (in `index.html`'s pre-paint bootstrap, handed to React via `data-first-accent` so there is no flash). It lives in memory only. `ThemeProvider` tracks `accentChosen`, which flips only on an explicit user action (dock swatch, palette, reset), and *only then* writes to storage. Do not "simplify" the accent effect to persist on every render — that silently turns the random pick into a permanent preference and defeats the feature. A deliberate choice, once made, is always honoured on return.
+- **Per-visit variation is decorative and bounded.** The marquee order shuffles once per load (both loop copies share the order, or the seam shows). The identity plate's resting tilt drifts ±0.35° per axis — below conscious notice, zero under reduced motion. Hand-drawn strokes regenerate per mount; the quiet-work underline rerolls per hover. None of this may affect navigation order, content, or the case-study sequence, which stay authored and predictable.
 - Theme switching has a standard fallback when the View Transitions API is unavailable.
 - Motion can be reduced by system preference and turned off in the theme dock.
-- The project dialog remains deep-linkable through `?project=<id>` and Back closes it correctly.
+- The project dialog remains deep-linkable through `?project=<id>`, Back closes it correctly, and renamed projects keep an alias for previously shared links.
+- Forward-looking work is labeled as such. Rollouts and targets are never written as delivered outcomes.
 - `Ctrl/Cmd + K` opens search, except when another non-search dialog is active.
 - The project dialog must keep the conceptual-art disclosure for enterprise work.
 - Project filtering, search, and linked related-work affordances must continue to reach every project.
