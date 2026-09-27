@@ -301,8 +301,8 @@ export const projects: Project[] = [
     description:
       "Built from scratch in a Fluent UI 2 / WinUI 3 acrylic design language, with a custom [ac]StyledText markup engine[/ac] that parses inline formatting straight from the data layer. That idea survived the redesign — it still separates content from presentation on the site you're reading.",
     tech: ["React 19", "Tailwind CSS 4", "Framer Motion"],
-    link: "https://themr-777.github.io/MyPortfolio-v3/",
-    repo: "https://github.com/TheMR-777/MyPortfolio-v3",
+    link: "https://themr-777.github.io/",
+    repo: "https://github.com/TheMR-777/TheMR-777.github.io",
     personal: true,
   },
 ];
@@ -601,6 +601,10 @@ export const vision = {
     "I don't expect to arrive there alone, or soon. But a person should aim at the horizon they actually believe in — and then do the nearest honest thing that points toward it.",
   next:
     "The nearest honest thing, for now: making trustworthy AI reach the people usually priced out of it — starting where I stand, in Pakistan.",
+  venture: {
+    title: "The nearer horizon",
+    text: "A Pakistan-based venture studio for smaller firms, and an AI commons beside it. Not a consultancy that sells intelligence to whoever can pay — infrastructure that [em]evolves with the company using it[/em], priced so a small team can actually afford to run on it. The working relationship is the point: partners rather than clients, the way a family firm treats a family firm.",
+  },
 };
 
 /** Formative stories that predate or sit outside the flagship work. */

@@ -275,7 +275,14 @@ export function Journey() {
               <StyledText text={vision.origin} />
             </blockquote>
             <p className="mt-5 max-w-xl text-[13px] leading-[1.95] text-ink-muted">{vision.originClose}</p>
-            <p className="mt-8 max-w-xl border-t border-line pt-6 text-xs leading-[1.9] text-ink-faint">{vision.next}</p>
+            {/* The nearer horizon sits under the long one. Same quiet treatment —
+                a label and a paragraph, no plate, so the footer's closing gesture
+                stays the only one on the page. */}
+            <div className="mt-8 max-w-xl border-t border-line pt-6">
+              <Label>{vision.venture.title}</Label>
+              <p className="mt-4 text-[13px] leading-[1.95] text-ink-muted"><StyledText text={vision.venture.text} /></p>
+            </div>
+            <p className="mt-8 max-w-xl text-xs leading-[1.9] text-ink-faint">{vision.next}</p>
           </div>
         </Reveal>
       </div>
