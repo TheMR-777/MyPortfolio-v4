@@ -4,7 +4,7 @@ import { cn } from "../utils/cn";
 /** Cards in the Craft grid carry a full illustrated study. */
 const CRAFT_ART = new Set(["schemaflow", "mr-crypt", "schema-weaver", "moire", "letitgo", "githubify"]);
 /** Simpler studies, used only when a project is opened. */
-const SIMPLE_ART = new Set(["smart-cleanup", "myportfolio"]);
+const SIMPLE_ART = new Set(["smart-cleanup", "myportfolio", "this-site"]);
 
 export const hasCraftArt = (id: string) => CRAFT_ART.has(id);
 export const hasDialogArt = (id: string) => CRAFT_ART.has(id) || SIMPLE_ART.has(id);
@@ -218,6 +218,18 @@ export function CraftVisual({ id }: { id: string }) {
       <span className="font-mono text-[8px] uppercase tracking-[.2em] text-plate-faint">The portfolio before this one</span>
       <span className="mt-4 font-serif text-[26px] leading-tight">Acrylic, mica, <em className="text-accent">frost.</em></span>
       <span className="mt-2 font-mono text-[9px] text-plate-faint">Every quiet zone, deliberate.</span>
+    </div>
+  );
+  /* The current site, described the same way: one material, one accent. The
+     rule is drawn rather than written, because that is the actual argument. */
+  if (id === "this-site") return (
+    <div className="craft-art flex flex-col justify-center px-7" aria-hidden="true">
+      <span className="font-mono text-[8px] uppercase tracking-[.2em] text-plate-faint">This page</span>
+      <span className="mt-4 font-serif text-[26px] leading-tight">Paper and <em className="text-accent">ink.</em></span>
+      <svg viewBox="0 0 150 10" fill="none" className="mt-4 w-[150px]">
+        <path d="M0 5h120" stroke="var(--accent)" strokeWidth="1.5" />
+        <path d="M126 5h18" stroke="currentColor" strokeOpacity=".2" />
+      </svg>
     </div>
   );
   return (
