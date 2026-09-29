@@ -296,13 +296,25 @@ export const projects: Project[] = [
   {
     id: "myportfolio",
     title: "MyPortfolio v3",
-    kind: "Design · Earlier portfolio",
-    summary: "The Fluent-inspired portfolio that came before this one.",
+    kind: "Design · The detailed one",
+    summary: "The long-form portfolio this one was distilled from.",
     description:
-      "Built from scratch in a Fluent UI 2 / WinUI 3 acrylic design language, with a custom [ac]StyledText markup engine[/ac] that parses inline formatting straight from the data layer. That idea survived the redesign — it still separates content from presentation on the site you're reading.",
+      "Built from scratch in a Fluent UI 2 / WinUI 3 acrylic design language, with a custom [ac]StyledText markup engine[/ac] that parses inline formatting straight from the data layer. It is still online, and still the fuller record — the enterprise case studies, the architecture decisions, the metrics behind each system. That idea survived the redesign: it still separates content from presentation on the site you're reading.",
     tech: ["React 19", "Tailwind CSS 4", "Framer Motion"],
     link: "https://themr-777.github.io/",
     repo: "https://github.com/TheMR-777/TheMR-777.github.io",
+    personal: true,
+  },
+  {
+    id: "this-site",
+    title: "MyPortfolio v4",
+    kind: "Design · The site you're reading",
+    summary: "The same life, deliberately held to one page.",
+    description:
+      "v3 answers [em]what did you build[/em]. This one tries to answer [em]what are you like[/em] — and that needs a different shape. A single page of paper and ink, one accent at a time, nothing decorative. Everything here was cut from something longer until only the load-bearing parts remained. The restraint is the argument: [hi]a portfolio that over-explains has already decided for you what mattered.[/hi]",
+    tech: ["React 19", "Tailwind CSS 4", "Framer Motion"],
+    link: "https://themr-777.github.io/MyPortfolio-v4/",
+    repo: "https://github.com/TheMR-777/MyPortfolio-v4",
     personal: true,
   },
 ];
