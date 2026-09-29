@@ -486,13 +486,16 @@ export const globalRecognition = [
     place: "United Kingdom",
     programme: "MSc · via Chevening 2025/26",
     outcome: "Offer received",
+    detail: "Ranked #2 worldwide, #1 in Europe. Declined — no funding attached.",
     emphasis: true,
   },
   {
     institution: "CyberMACS Erasmus Mundus",
     place: "EU joint programme",
     programme: "Joint Master in Cybersecurity",
-    outcome: "Tuition waiver + insurance",
+    outcome: "Full tuition waiver + insurance, then declined",
+    detail:
+      "A reserved seat that became a complete fee waiver. Declined because an Erasmus Mundus MSc relocates you across Europe, and the cost of living was not covered.",
     emphasis: true,
   },
   {
@@ -500,18 +503,21 @@ export const globalRecognition = [
     place: "United Kingdom",
     programme: "MSc · via Chevening 2025/26",
     outcome: "Offer + 80% scholarship",
+    detail: "An independent 80% merit scholarship. The remaining 20% was still beyond reach.",
   },
   {
     institution: "University of Southampton",
     place: "United Kingdom",
     programme: "MSc · 2025 application cycle",
     outcome: "Admission offer received",
+    detail: "Declined — the Chevening award did not come through, so the place was unfunded.",
   },
   {
     institution: "ESIEE Paris",
     place: "France",
     programme: "MSc · Eiffel nomination",
     outcome: "Admission + nomination",
+    detail: "Nominated for the Eiffel Scholarship; fees remained unaffordable.",
   },
 ];
 
