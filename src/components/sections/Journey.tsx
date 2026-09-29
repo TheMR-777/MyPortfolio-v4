@@ -172,11 +172,12 @@ export function Journey() {
                     <p className="text-xs font-semibold">{entry.institution} <span className="font-normal text-ink-faint">&middot; {entry.place}</span></p>
                     <p className="mt-1 text-[11px] text-ink">{entry.outcome}</p>
                     <p className="mt-0.5 text-[11px] leading-relaxed text-ink-muted">{entry.programme}</p>
+                    <p className="mt-1 text-[11px] leading-relaxed text-ink-muted">{entry.detail}</p>
                   </div>
                 </li>
               ))}
             </ul>
-            <p className="mt-5 text-[11px] leading-[1.9] text-ink-muted">Every application returned an offer. Each was declined for the same reason — pursuing an opportunity sustainably, rather than at any cost.</p>
+            <p className="mt-5 text-[11px] leading-[1.9] text-ink-muted">Every application returned an offer. None was taken up, and the reason was always the same &mdash; not ability, but what it cost. The clearest case is the last barrier standing: a fully funded place I still could not reach.</p>
           </div>
 
           <div className="mt-6 border-t border-line pt-5">
