@@ -1,1 +1,8 @@
 ﻿node_modules
+dist
+*.local
+.DS_Store
+
+# Generated local tooling state (regenerate with `repowise init` / `repowise reindex`).
+.repowise/
+.freebuff/
