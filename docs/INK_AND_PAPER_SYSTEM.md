@@ -10,6 +10,18 @@ The visual language is intentionally built from a tension:
 
 This document explains how to preserve that tension in implementation decisions.
 
+## Status Of This Guidance
+
+This describes Ink & Paper's identity, current implementation and useful design
+judgments. It is not a universal style law. Factual accuracy, privacy, accessibility
+and compatibility are safeguards; accent placement, drawing technique and composition
+are creative choices evaluated in context. See `../AGENTS.md` for that distinction.
+
+SVG is welcome and already central to the artwork. No medium, path count, word count
+or fixed section count is inherently more artistic or accessible. Choose an approach
+for its meaning, rendered quality, responsive behavior and maintenance cost. Treat
+past bug reports as scoped evidence, not authority to ban an entire technique.
+
 ## The Two-Material Model
 
 There are only two primary surface meanings:
@@ -55,161 +67,99 @@ When adding a new swatch, define all of `h`, `s`, `light`, and `dark` in `src/th
 
 ## Layout Rhythm
 
-The portfolio is a sequence of editorial acts, not a collection of widgets:
+The current portfolio reads as a sequence of editorial acts rather than unrelated widgets:
 
 1. **Hero:** authorship, positioning, first invitation.
 2. **Mode:** the product idea and an invitation to try it.
 3. **Work:** evidence through systems and decisions.
-4. **Orchestration:** how the work gets built now, and the quality line around it.
+4. **Method interlude** (`#orchestration`, unnumbered): how the work gets built now, and the human quality boundary.
 5. **Craft:** smaller personal tools and curiosity.
 6. **Philosophy and skills:** the thinking beneath the output, and the interests that feed it.
 7. **Journey:** proof over time, formative stories, then a clear human invitation.
 
-Sections carry a visible ordinal in their eyebrow (`01 /` through `06 /`). If you add, remove, or reorder a section, renumber every eyebrow and update `sections` in `src/context/PortfolioContext.tsx` so the navigation, mobile menu, and search stay in sync.
+Five acts currently carry ordinals: Mode `01`, Work `02`, Craft `03`, Philosophy `04`, Journey `05`. Hero, method and supporting destinations are unnumbered; method uses `Label`. This map is not a fixed template for future work. When a requested composition changes it, update `sections[].ordinal` in `src/context/PortfolioContext.tsx`, visible labels and corresponding tests together. Navigation should reflect authored metadata rather than array positions; preserve existing anchors, including `#orchestration`.
 
 ### Sub-blocks and the coda
 
 Not every idea earns its own act. These live inside an existing section and carry no ordinal:
 
 - **Beyond computer science** (inside Philosophy): the three interests, each tied to the shipped work it demonstrably fed. If an interest has no such tie, render it as plain text rather than inventing a link.
-- **The stories behind the timeline** and **Study & certification** (inside Journey): quiet reference content, the latter behind a collapsed `details`.
-- **The longer view** (`#vision`, inside Journey): an unnumbered ink coda stating personal conviction. It is framed explicitly as a conviction, never as a forecast, and is deliberately excluded from the desktop pill (`pillSections` in `Nav.tsx`) to keep that control from crowding — it remains reachable through the mobile menu, search, and deep link.
+- **The stories behind the timeline** and **Reference shelf** (inside Journey): formative stories and supporting material; the shelf contains writing, research and certification behind `details`.
+- **The longer view** (`#vision`, inside Journey): currently a paper reading passage stating personal conviction, not a forecast. It is excluded from the desktop pill (`pillSections` in `Nav.tsx`) and remains reachable through the mobile menu, search and deep link.
 
-Keep this rule: a new idea becomes a numbered act only if it changes how the reader understands the work. Otherwise it is a sub-block.
+Let a new idea's importance and relationship to the surrounding content determine
+whether it needs an act, a sub-block or a quiet reference. Avoid adding sections simply
+to house every new fact, but do not force distinct ideas into an ill-fitting structure.
 
 Each section should have one job. Do not combine several jobs just because they share a theme.
 
-## The Three Accent Budgets
+## Accent And Hierarchy
 
-Restraint fails when it is a feeling. It holds when it is a count. These three
-devices are the ones most likely to multiply silently, so each has a budget.
+Accent gives the eye a place to land; it is not a quota to fill. A heading may
+emphasize a word, a phrase or nothing. Choose placement from the sentence's meaning
+and the whole composition, not a mandatory middle word or colored closing tail.
 
-### 1. The accent focus word in a heading
+Large serif numerals currently give the identity plate prominence. Elsewhere,
+quieter figures often fit better, but there is no hero-only restriction. The test is
+whether a number deserves that attention and is factually supported.
 
-An `<em className="text-accent">` inside a heading. This is the intended
-"spark" — nearly every section heading carries exactly **one** accented focus
-word that gives it a point of attention. That is a feature, not a leak.
-
-The two rules that keep it from becoming wallpaper:
-
-- **One per heading, never more.** A heading with two accented words has no
-  focus. Choose the single most important word.
-- **Prefer a mid-heading focus word over a closing tail.** `Systems that
-  [changed] how a company works` reads with more life than a predictable
-  `... how a company [works.]` The eye wants the accent to land inside the
-  thought, not just at its end. A closing accent is fine when the last word
-  genuinely is the point (the hero name, *tested.*, *knowing.*), but reach for
-  the interior word first.
-
-Purely structural or reference headings (a collapsed `details` summary, a quiet
-sub-block title) may stay unaccented — silence between sparks is what lets each
-one register.
-
-### 2. Large accent serif numerals
-
-Big figures in `font-serif ... text-accent`.
-
-**Budget: the hero identity plate only.** Small index markers are a different
-device: the `01`/`02`/`03` numerals introducing principle lists (Mode,
-Philosophy) use accent italics as list markers, matching the philosophy
-principle numbers — they orient, they don't shout.
-
-Nowhere else. Stats elsewhere are set as a single quiet mono line —
-`13 mentors · 50+ sessions · 20+ students` — which carries the fact without
-competing with the hero for the reader's first impression.
-
-### 3. The eyebrow's accent dash
-
-`Eyebrow` carries a short accent rule. It is the one recurring accent the
-reader learns to follow down the page, so it marks **section-level acts only**
-(`01 /` through `06 /`).
-
-Sub-blocks use `Label` — same typographic voice, no dash. A page where every
-sub-block also claims an eyebrow has no hierarchy left, only noise.
-
-Control surfaces (the theme dock, the mobile menu) are not page content and may
-use an eyebrow freely.
+`Eyebrow` has an accent dash; `Label` offers a quieter marker. Their present use
+distinguishes major acts from supporting content. Use that contrast deliberately
+without treating every heading or sub-block as a fixed component assignment.
 
 ## Ink Plate Placement
 
-The footer is the page's single closing gesture — the one place ink rises to
-full bleed at the end. **Never place a full-bleed ink plate immediately before
-it.** Two stacked slabs deaden the ending. Forward-looking conviction belongs
-on paper, as reading.
+The current ending uses paper for reflection and ink for the footer. Protect its
+rhythm during unrelated work. Adjacent full-width dark surfaces can feel heavy;
+evaluate their purpose, proportion and separation when redesigning the ending.
+This is a compositional concern, not a ban on a particular sequence of surfaces.
 
 ## The Hand-Drawn Layer
 
-The site is called Ink & Paper, so the pen must show occasionally — but the
-vocabulary is deliberately split in two:
+Hand-drawn accents can add a human presence without turning the site into a themed
+notebook. Crisp geometry is the current starting point for technical studies, while
+editorial marks are looser. Neither style is inherently correct for an entire class
+of content: meaning, legibility and coherence decide.
 
-- **Technical studies stay machine-crisp.** `ProjectVisual` architecture
-  diagrams (EMS, Overwatch, MDM, Vault…) use exact geometry because precision
-  *is* the engineering claim. Never apply a sketch effect to them.
-- **Editorial moments may be sketched — with smooth, randomized curves, never
-  an SVG turbulence filter.** `src/components/HandDrawn.tsx` builds every
-  stroke from a handful of randomized points threaded through a Catmull-Rom
-  spline (`smoothPath` + `wobble`). This was a deliberate correction: an
-  earlier version used `feTurbulence` + `feDisplacementMap`, which displaces
-  geometry as pixel-level noise. That reads as loose linework on a large
-  shape, but on a *short* stroke — an underline, a signature, a 5px hatch
-  mark — the noise wavelength dwarfs the shape and it collapses into an
-  illegible scribble. A curve smoothed through a few jittered points stays
-  legible at any size, because the randomness lives in the points, not the
-  render. **Do not reintroduce a turbulence/displacement filter here.**
-  - `HandStrata` — the sketched geological layers beside "the work beneath the
-    work." Regenerated once per mount (`useMemo(..., [])`), so each page load
-    lays out its own strata; hatch ticks are plain straight segments at a
-    randomized angle, which is what keeps a 5px mark from turning to noise.
-  - `HandUnderline` — a pen line that draws itself under a quiet-work row's
-    title on hover/focus (`pathLength` dash reveal; appears instantly under
-    reduced motion). Accepts a `seed` prop that is *only* a `useMemo` key —
-    passing a fresh value (the quiet-work rows reroll it on every
-    pointer-enter/focus) redraws a new, equally smooth squiggle, so the same
-    row never traces quite the same line twice.
-  - `HandFlourish` — the stroke beneath the footer signature, and the one
-    place where "hand-drawn" must mean *elegant*, not *rough*. It is a single
-    calligraphic gesture: three cubic Béziers (a long shallow arc, a rise into
-    the crest, a small terminal curl) joined with **C1 continuity** — the
-    control point leaving each joint is the mirror of the one arriving, so the
-    tangent never changes direction abruptly. Per-visit variation is applied to
-    the *gesture parameters* (arc depth, curl radius, where the pen lifts),
-    never to individual points. An earlier version sampled a wave through 7
-    jittered points; even smoothed, those tiny course-corrections read as a
-    hand that hesitated. A signature is confidence with a little breath in it.
+Current helpers in `src/components/HandDrawn.tsx`:
 
-One stroke per moment, not several stacked together. This is a hard rule,
-learned twice: the quiet-work row carries the margin underline alone (its arrow
-stays a plain lucide `ArrowUpRight`), and the underline itself is **one path**.
-An earlier version drew a second, fainter "ghost" pass with its own random
-points; because the two wobbles diverged, it read as two separate lines — one
-from the left, one that seemed to start mid-word and trail off. A pen makes
-one mark. Restraint applies to ink exactly as it applies to accent color: if
-everything is sketched, nothing reads as a hand.
+- `HandStrata` uses smooth curves through randomized points and short straight hatch
+  marks. Its variation is generated per mount.
+- `HandUnderline` uses a harmonic curve and a derived, faint bleed path; the current
+  implementation has **two paths**, not the single path described by older notes.
+  Its `seed` is a memo key that regenerates the drawing; hover/focus reveals the mark
+  and reduced motion removes the drawing animation.
+- `HandFlourish` is an available calligraphic helper with per-mount parameter
+  variation. Its presence in this file does not require rendering it in the footer.
+  Check the consuming component rather than treating an old description as a task.
 
-When extending this file: keep amplitudes small (roughly 1–2 units in a
-~100-unit viewBox), use round caps/joins, taper amplitude to zero at both ends
-of a line with the sine envelope in `wobble()` so a stroke never meets a
-neighboring shape at a hard angle, and remember the rule — **hand-drawn means
-"a person was here," so reserve it for human moments.** Sketching a monitoring
-pipeline would say the wrong thing about the work.
+### Rendering history, not technique bans
+
+Earlier notes reported that turbulence/displacement settings made tiny strokes
+illegible, and independently randomized "ghost" lines appeared disconnected. Those
+are scale/parameter/geometry problems, not evidence that SVG filters or multiple paths
+are forbidden. Curves with controlled variation are the current solution.
+
+The useful constraint is perceptual: a mark should read intentionally at its actual
+display size, remain clear across themes and not obscure text. Inspect narrow/wide
+layouts, wrapping and static/reduced-motion states. A new technique can be appropriate
+if it meets those needs; do not change working art solely to satisfy a path count.
 
 ## Illustration Honesty
 
-A diagram must state what the system actually does. Two specific obligations:
+A technical diagram should distinguish alternatives, parallel peers, inheritance,
+flow and boundaries accurately. Labels, grouping, line styles or different arrangements
+can make those relationships clear; no particular node layout is compulsory.
 
-- **Parallel nodes imply equivalence.** If two things are alternatives rather
-  than peers, render them as one node naming both (`nanoMDM · microMDM`), and
-  give genuinely different concerns their own branch. A three-way fan-out where
-  two are substitutes is a factual error, not a simplification.
-- **Show the interesting mechanism, not just the flow.** The orchestration
-  diagram draws a coordination rail between the specialists because that shared
-  bus is the point; a plain funnel would hide it.
+Draw the mechanism worth understanding. The current squad diagram uses a coordination
+rail to distinguish collaboration from an independent fan-out; a future drawing should
+preserve that meaning, not necessarily the same rail geometry.
 
-Minor personal tools get a **typographic plate** (see `mr_crypt`,
-`smart-cleanup`, `myportfolio` in `ProjectVisual.tsx`) rather than an invented
-architecture diagram. Do not manufacture structure a project does not have.
+Personal projects may use typography, a conceptual illustration, a diagram or a small
+interaction. Choose what expresses their idea without manufacturing capabilities or
+architecture. A modest project need not look like an enterprise system to merit art.
 
-### Spacing Rules
+### Spacing Guidance
 
 - Use `Section` for the baseline page rhythm.
 - Use structural lines to start or close a thought; do not draw lines around everything.
@@ -234,14 +184,14 @@ architecture diagram. Do not manufacture structure a project does not have.
 
 ## Motion System
 
-Motion uses the shared ease `cubic-bezier(.22, 1, .36, 1)`: decisive at the beginning, gentle at the end.
+Motion uses the shared ease `cubic-bezier(.22, 1, .36, 1)`: decisive at the beginning, gentle at the end. These are current patterns and useful starting points, not fixed limits on future experiments.
 
 | Motion | Why it exists | Keep it subtle by |
 | --- | --- | --- |
 | Section reveal | reveals reading order | opacity plus a small vertical offset, once per section |
-| Hover lift | confirms an interactive object | 2-5px movement, no bouncing |
+| Hover lift | confirms an interactive object | a small, calm movement for ordinary controls |
 | Theme reveal | makes a mode change feel physical | originate at the clicked control and reveal the actual new snapshot |
-| Diagram trace | gives a system visual a sense of flow | run only on hover, not continuously |
+| Diagram trace | gives a system visual a sense of flow | hover-triggered feedback with meaning readable at rest |
 | Small experiments | makes a concept discoverable | one input, one immediate visible result |
 
 All movement must degrade cleanly when `prefers-reduced-motion` is set or the user disables gentle motion in the theme dock. Use the established `useTheme().reduceMotion` and `MotionConfig`; do not introduce a second motion-preference state.
@@ -271,7 +221,8 @@ The floating dock is part of the portfolio's thesis, not a decoration.
 
 Projects are opened through a native dialog wrapper, which gives focus trapping and an inert background. The dialog also updates `?project=<id>` for shareable deep links.
 
-For featured projects, use the narrative sequence:
+The current case-study structure offers a useful starting sequence, not a mandatory
+story template for every project:
 
 1. Thesis
 2. Challenge
@@ -284,12 +235,13 @@ Do not manufacture screenshots. Use architecture studies when the details are co
 
 ### Experiments
 
-An experiment is acceptable only when it communicates a genuine part of the portfolio's point of view. Existing examples:
+Experiments can communicate a point of view through play, discovery or direct explanation. Existing examples:
 
 - Horner Lab: intuitive understanding through a simple, inspectable rule.
 - Moire Lab: a real-world observation made interactive.
 
-Avoid gamification, scorekeeping, forced engagement loops, or decorative controls.
+Avoid forced engagement loops and distracting controls. Playfulness is not itself a
+problem; judge whether the interaction rewards curiosity and belongs to this portfolio.
 
 ## Accessibility Baseline
 
@@ -329,12 +281,12 @@ For any UI change, answer these before considering it complete:
 - Does it remain legible in Light, Mixed, and Dark modes?
 - Does the accent adapt correctly on both paper and a plate?
 - Is the section still accomplishing one clear job?
-- Is the visual addition helping understanding rather than filling space?
+- Does the visual addition strengthen understanding, character or composition rather than merely fill space?
 - Is the interaction complete for keyboard and touch?
 - Does motion stop under reduced-motion preferences?
 - Is the content accurate and safe to publish?
 - Does the small-screen layout feel designed, not compressed?
-- Does `npm run build` succeed?
+- Do `bun test ./tests`, `.\node_modules\.bin\tsc --noEmit` and `bun run build` succeed for application changes? For docs-only changes, review consistency and `git diff --check` instead; report browser checks separately.
 
 ## Common Repairs
 

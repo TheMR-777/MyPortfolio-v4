@@ -13,17 +13,35 @@ Before changing anything, read:
 
 Do not redesign the site simply because a familiar portfolio pattern would be easier to implement. Preserve the intentional choices already present unless the user explicitly asks to reconsider them.
 
+## How To Read This Guide
+
+This is stewardship guidance, not a collection of universal design laws. Preserve
+Ink & Paper's identity and working behavior while exercising visual judgment.
+
+- **Safeguards:** factual accuracy, privacy, accessibility, compatibility and explicit
+  authorization for publication remain requirements.
+- **Current conventions:** composition, section count, illustration technique, accent
+  placement and ornament are starting points for coherent work, not permanent bans.
+  A requested design change may revise them without requiring an exception for every detail.
+- **Authority:** the owner's current request sets project scope. A proposal, test,
+  source comment or earlier agent's confident wording is not proof of owner approval.
+  Label new suggestions as suggestions; record specific owner decisions with their scope.
+
+Judge artwork by the rendered result. SVG is an established medium here; CSS, HTML
+and other suitable techniques are also options. Do not create rules about tag choice,
+path count, accented-word count or diagram shape as substitutes for design judgment.
+
 ## The Standard
 
 Every contribution should make the portfolio feel more considered, not merely more decorated or more feature-rich.
 
 Use this test before shipping:
 
-> Does this change create more clarity, more truthful depth, or a more meaningful interaction without stealing attention from the work?
+> Does this change strengthen the page's clarity, truthful depth, artistic character or interaction, while belonging to the whole composition?
 
 If the answer is no, do not add it.
 
-## Non-Negotiable Design Principles
+## Design And Engineering Guidance
 
 ### 1. Treat theme as material, not color
 
@@ -47,18 +65,18 @@ The first viewport is a single composition: name, concise positioning, one actio
 
 - Favor deliberate asymmetry, quiet space, strong type, and one memorable visual idea per section.
 - Use dense UI only where density itself communicates something meaningful: an architecture study, command palette, mini experiment, or case-study detail.
-- Do not introduce decorative stat strips, badge piles, timeline clutter, generic bento grids, hero overlays, or marketing-card stacks.
+- Avoid defaulting to stat strips, badge piles, bento grids or marketing-card stacks. Choose a form for this content, not because it is a familiar portfolio pattern.
 - Cards are interaction containers or focused material changes, not a default layout primitive.
-- A border, shadow, radius, or glow must communicate hierarchy or interaction. Remove it if it does not.
+- A border, shadow, radius or glow should contribute to hierarchy, interaction or the material character. Decoration can have artistic value; assess its effect in context.
 
 ### 3. Practice restraint
 
 This portfolio intentionally gives the eye quiet places to rest.
 
-- One clear headline per section.
-- One accent should lead at a time.
-- **Follow the accent discipline** documented in `docs/INK_AND_PAPER_SYSTEM.md`: a section heading carries exactly one accented focus word (the intended "spark"), preferring a mid-heading word over a predictable closing tail; large accent serif numerals appear only in the hero identity plate; the eyebrow's accent dash marks section-level acts only, with `Label` for sub-blocks. One spark per heading — never zero for a lead heading, never two.
-- Never place a full-bleed ink plate immediately before the footer.
+- Give each section a clear center of attention; secondary headings can support it.
+- Let accent placement follow meaning and visual rhythm. A word, a phrase or no accent may be right; there is no mandatory count or position.
+- Large numerals and eyebrow marks affect prominence. Use their scale and repetition deliberately, rather than assigning them permanent geographic quotas.
+- Consider the ending as one composition. Adjacent dark surfaces can become heavy; assess their spacing and hierarchy rather than imposing a categorical placement ban.
 - Prefer a short, exact sentence over a second paragraph.
 - Prefer one strong visual study over stock photography, a generic illustration, or a collage.
 - Avoid gratuitous gradients, glass effects, blobs, badges, animated counters, and excessive rounded rectangles.
@@ -66,13 +84,14 @@ This portfolio intentionally gives the eye quiet places to rest.
 
 ### 4. Make motion explain hierarchy
 
-Motion should orient, reveal, or give feedback. It should never perform for its own sake.
+Motion can orient, reveal, give feedback or express character. It should support the
+experience rather than compete with reading or make controls harder to use.
 
 - Use the established slow editorial reveal cadence for section entry.
-- Keep hover movement small and calm: usually a few pixels, never a jump or wobble.
+- Favor small, calm hover movement for ordinary controls; let an experiment's purpose determine its feedback.
 - Theme changes use a circular View Transition from the activation point when supported; preserve the guarded fallback.
 - Respect `prefers-reduced-motion` and the in-product motion control. Any new motion must become static under reduced motion.
-- Do not add auto-playing movement to content. The existing marquee is intentionally low-emphasis and pauses on hover.
+- Avoid ambient motion that competes with reading. The existing marquee is low-emphasis and pauses on hover; any new motion needs a purpose and appropriate pause/reduced-motion behavior.
 
 ### 5. Design interactions as complete systems
 
@@ -98,16 +117,16 @@ The best presentation is credible.
 
 ## Implementation Map
 
-| Concern | Source of truth | Rules |
+| Concern | Source of truth | Notes and contracts |
 | --- | --- | --- |
-| Global theme tokens and visual primitives | `src/index.css` | Change tokens before component-level styling. Preserve paper/plate semantics. |
+| Global theme tokens and visual primitives | `src/index.css` | Preserve paper/plate semantics. Change shared tokens for a system-wide need, local styles for a local need. |
 | Modes, accents, persistence, motion preference | `src/theme/ThemeProvider.tsx` | Use `setMode`, `setAccent`, and `useTheme`; do not write theme storage ad hoc. |
 | Main portfolio content | `src/data/portfolio.ts` | Keep content normalized and use the existing inline markup where needed. |
 | Detailed project narratives | `src/data/caseStudies.ts` | Keep enterprise descriptions architectural and truthful. |
 | Project navigation, search state, deep links | `src/context/PortfolioContext.tsx` | Use `usePortfolio`; preserve `?project=<id>` behavior. If a project is renamed, add the old id to `projectAliases` so shared links keep working. |
 | Rich text markup | `src/components/StyledText.tsx` | Use `StyledText` for data-backed marked-up text. Do not inject HTML. |
-| Project illustrations | `src/components/ProjectVisual.tsx` | Keep them abstract, semantic, and explicitly non-production. `hasCraftArt` gates the illustrated Craft grid cards; `hasDialogArt` is the wider set used inside the project dialog. Add a new personal project to `SIMPLE_ART` if it only warrants a simple study, so its dialog is never an empty spacer. |
-| Hand-drawn ink accents | `src/components/HandDrawn.tsx` | Smooth, randomized Catmull-Rom curves for *human* editorial moments only (strata motif, margin underline, signature flourish) — never an SVG turbulence/displacement filter, which collapses short strokes into an illegible scribble. Architecture studies stay crisp — precision is the engineering claim. One hand-drawn touch per moment. See "The Hand-Drawn Layer" in the design doc. |
+| Project illustrations | `src/components/ProjectVisual.tsx` | Keep technical meaning truthful and enterprise studies explicitly non-production. `hasCraftArt` gates grid art; `hasDialogArt` includes the simpler dialog studies in `SIMPLE_ART`. Choose an appropriate visual or intentional text-only treatment, not obligatory filler. |
+| Hand-drawn ink accents | `src/components/HandDrawn.tsx` | Existing SVG primitives supply strata, underlines and a flourish. Inspect actual usage before changing them. The design doc records techniques and past rendering problems, not bans on filters, sketches or multiple paths. |
 | Dialog behavior | `src/components/Dialog.tsx` | Reuse for all modal experiences. |
 
 ## Content And Visual Workflow
@@ -118,13 +137,14 @@ The best presentation is credible.
 4. **Work in semantic tokens.** Verify the change in Light, Mixed, and Dark. A component that only works in one mode is broken.
 5. **Finish the interaction.** Add keyboard behavior, focus states, labels, empty states, loading/error feedback, and mobile behavior where applicable.
 6. **Check the content claim.** If the supplied data does not substantiate a statement, soften it or ask the owner rather than inventing proof.
-7. **Verify.** Run `npm run build` through the project build workflow. For visual changes, inspect all modes, a narrow viewport, a wide viewport, keyboard navigation, and reduced motion if browser tooling is available.
+7. **Verify.** For application changes, run `bun test ./tests`, `.\node_modules\.bin\tsc --noEmit`, then `bun run build` from `portfolio/`. For visual changes, inspect all modes, narrow/wide layouts, keyboard navigation and reduced motion where tooling permits; disclose missing checks. For docs-only work, review the changed guidance and run `git diff --check`; do not report an old build as a new pass.
 
 ## Component-Level Guidance
 
 ### Sections
 
 - `Section` supplies the page rhythm and focusable hash target. Use it before creating new section wrappers.
+- Current structure: Mode 01, Work 02, Craft 03, Philosophy 04, Journey 05; `#orchestration` uses an unnumbered `Label`. This is a description, not an immutable section count. If an authorized composition changes it, update explicit navigation metadata, visible labels and relevant tests together while preserving anchors.
 - Let sections breathe. Do not shrink vertical spacing to fit more content above the fold.
 - Do not use `h-screen` or force fixed heights for content sections.
 
@@ -153,14 +173,14 @@ The best presentation is credible.
 
 - The markup engine supports `[hi]`, `[ac]`, `[em]`, `[dim]`, `[code]`, `[i]`, `[dt]`, `[c=...]`, and `<br />`.
 - Use it sparingly. A markup tag must create hierarchy, not decorate every sentence.
-- `[hi]` renders differently by context, deliberately: in body copy it is clean semibold; inside display serif (headings, pull quotes, the vision statement) it becomes the **pencil marginalia** mark — an italic phrase with a soft highlighter wash behind it. Never underline running-text emphasis; a horizontal rule under text is crossed by descenders and reads as strikethrough. The wash is a uniform/horizontal-fade fill surrounding the glyphs, never a band at a fixed percentage of the line box (that bisects the letters — a previous bug). Do not "simplify" it back to bold or an underline.
+- `[hi]` currently renders as semibold in body copy and an italic highlighter wash in display serif. Preserve that distinction during unrelated work. Earlier underline/band treatments crossed glyphs and looked like strikethrough; any revised emphasis should be checked at real sizes, with descenders and line wrapping. This rendering issue is not a ban on underlines or alternate emphasis techniques.
 - Keep raw data free of JSX. It must remain searchable and reusable by the command palette.
 
 ### Visual Studies And Experiments
 
 - `ProjectVisual` is a diagram language: relationships, layers, flow, coverage, validation, and boundaries.
-- A diagram must be architecturally true. Alternatives are one node naming both, not parallel peers in a fan-out. Draw the mechanism that makes the system interesting, not merely its direction of flow.
-- Minor personal tools get a typographic plate, never an invented architecture diagram.
+- A technical diagram must be architecturally truthful. Make alternatives, parallel peers, boundaries and direction distinguishable through labels, grouping or geometry; no single node arrangement is mandatory.
+- Typography, illustration, a small interaction or a diagram may suit a personal tool. Do not invent system architecture to justify a drawing.
 - A new visual should explain the project’s unique idea. Do not copy a diagram motif just to fill a card.
 - Make interactive demos simple enough to understand in a few seconds. The Horner and Moire labs are models: one input, immediate consequence, a short explanatory sentence.
 
@@ -180,16 +200,18 @@ The best presentation is credible.
 - Project filtering, search, and linked related-work affordances must continue to reach every project.
 - No content change should require a design rewrite, and no design change should silently rewrite factual content.
 
-## What Future Agents Must Not Do
+## Guard Against Unrequested Drift
+
+Avoid the following failures:
 
 - Replace the design with a generic SaaS, agency, or dashboard layout.
 - Flatten Mixed mode into a simple background-color toggle.
-- Add a hero card, hero badge cluster, metrics ribbon, profile social row, or floating promo overlay.
+- Crowd the existing opening with secondary promotions or boilerplate additions unrelated to the requested work. This protects its current composition, not a blacklist of component types.
 - Add stock photos or AI imagery where an abstract architecture study communicates the work more honestly.
 - Add arbitrary gradient backgrounds, neon glows, or animated visual noise.
 - Turn every project into a large paragraph or every paragraph into an animation.
 - Hard-code visual colors inside components or duplicate theme state outside the theme provider.
-- Use fake testimonials, fabricated test data, invented percentages, or unsourced claims.
+- Present invented testimonials, outcomes, metrics or production data as real. Clearly labeled synthetic test fixtures or conceptual examples are different from public factual claims.
 - Expose confidential enterprise details.
 - Remove accessibility behavior in order to simplify markup.
 - Edit `package.json` or Vite configuration directly unless explicitly instructed by the repository owner.
@@ -204,11 +226,11 @@ A change is done only when all applicable items are true:
 - Keyboard use, visible focus, and reduced motion are supported.
 - New claims are sourced in project data or clearly framed as conceptual/editorial.
 - No private enterprise information has leaked.
-- The production build succeeds.
+- Applicable checks succeed; docs-only verification and unperformed browser checks are reported accurately.
 - The final response references changed file paths, summarizes behavior, and states any verification that could not be performed.
 
 ## Suggested Handoff Prompt
 
 Use this when asking a future agent to work on the site:
 
-> Read `AGENTS.md` and `docs/INK_AND_PAPER_SYSTEM.md` first. Preserve Ink & Paper’s editorial Mixed-mode design and its paper/plate token system. Make the smallest complete change that satisfies the request. Do not introduce generic cards, dashboard layouts, decorative clutter, unverified claims, or inaccessible interactions. Verify Light, Mixed, and Dark modes, reduced motion, keyboard behavior, mobile layout, and the production build where relevant.
+> Read `AGENTS.md` and `docs/INK_AND_PAPER_SYSTEM.md` first. Preserve Ink & Paper’s editorial Mixed-mode identity and paper/plate semantics while making the requested change. Use visual judgment rather than mechanical style quotas. Keep claims truthful, interactions accessible and existing links working. Verify the affected behavior and appearance, and state what could not be checked.
