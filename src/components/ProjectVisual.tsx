@@ -153,36 +153,57 @@ export function ProjectVisual({ id, className }: { id: string; className?: strin
           </>
         )}
 
-        {/* Mirror-symmetric around x=300: two service nodes left (centres 79/141),
-            a six-device fleet right (rows centred 91/129), one control plane at
-            the heart. Every connector has a mirrored twin. */}
+        {/* Apple MDM Lifecycle Arc: mirror-symmetric wave across five control gates
+            (enrollment, identity, SCEP trust, policy restriction, audit evidence),
+            supported by a central control rail and subtle fleet echo. */}
         {id === "apple-mdm" && (
           <>
-            <ellipse cx="300" cy="110" rx="132" ry="100" fill={`url(#${wash})`} />
+            <ellipse cx="300" cy="110" rx="145" ry="96" fill={`url(#${wash})`} />
 
-            <Node x={88} y={62} label="nanoMDM · microMDM" width={140} />
-            <Node x={88} y={124} label="SCEP · certs" width={140} />
-            <path d="M228 79C244 79 246 97 264 97" stroke="currentColor" strokeOpacity=".3" className="diagram-trace" />
-            <path d="M228 141C244 141 246 123 264 123" stroke="currentColor" strokeOpacity=".3" className="diagram-trace" />
+            {/* Lifecycle wave: background plate track + accent trace */}
+            <path
+              d="M72 100 C118 60 142 160 186 136 S256 42 300 68 S372 160 414 136 S482 60 528 100"
+              fill="none"
+              stroke="var(--plate)"
+              strokeWidth="8"
+              strokeOpacity=".5"
+            />
+            <path
+              d="M72 100 C118 60 142 160 186 136 S256 42 300 68 S372 160 414 136 S482 60 528 100"
+              fill="none"
+              stroke="var(--accent)"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              className="diagram-trace"
+            />
 
-            <rect x="264" y="84" width="72" height="52" rx="14" fill="var(--plate)" stroke="var(--accent)" strokeWidth="1.2" />
-            <text x="300" y="107" textAnchor="middle" fill="var(--accent)" style={{ fontSize: 13 }}>.NET</text>
-            <text x="300" y="122" textAnchor="middle" fill="currentColor" opacity=".5" style={{ fontSize: 8 }}>CONTROL</text>
-
-            <path d="M336 97C354 97 356 91 393 91" stroke="var(--accent)" strokeOpacity=".4" />
-            <path d="M336 123C354 123 356 129 393 129" stroke="var(--accent)" strokeOpacity=".4" />
-            {Array.from({ length: 6 }, (_, index) => (
-              <rect
-                key={index}
-                x={393 + (index % 3) * 36} y={79 + Math.floor(index / 3) * 38}
-                width="26" height="24" rx="4"
-                fill={index === 1 ? "var(--accent)" : "var(--plate)"}
-                fillOpacity={index === 1 ? ".2" : "1"}
-                stroke={index === 1 ? "var(--accent)" : "currentColor"}
-                strokeOpacity={index === 1 ? ".9" : ".24"}
-              />
+            {/* Five anchor nodes */}
+            {([
+              [72, 100],
+              [186, 136],
+              [300, 68],
+              [414, 136],
+              [528, 100],
+            ] as const).map(([x, y], i) => (
+              <g key={i}>
+                <circle cx={x} cy={y} r="7" fill="var(--plate)" stroke="var(--accent)" strokeWidth="1.8" />
+                <circle cx={x} cy={y} r={i === 2 ? 2.5 : 2} fill="var(--accent)" />
+              </g>
             ))}
-            <text x="300" y="207" textAnchor="middle" fill="currentColor" opacity=".5">ONE PLANE. ENROLL, RESTRICT, AUDIT.</text>
+
+            {/* Clear, low-verbosity stage labels alternating above and below the wave */}
+            <text x="72" y="74" textAnchor="middle" fill="currentColor" opacity=".75">ENROLL</text>
+            <text x="186" y="162" textAnchor="middle" fill="currentColor" opacity=".75">IDENTITY</text>
+            <text x="300" y="44" textAnchor="middle" fill="var(--accent)">SCEP · TRUST</text>
+            <text x="414" y="162" textAnchor="middle" fill="currentColor" opacity=".75">RESTRICT</text>
+            <text x="528" y="74" textAnchor="middle" fill="currentColor" opacity=".75">AUDIT</text>
+
+            {/* Quiet control rail */}
+            <path d="M180 188h240" stroke="currentColor" strokeOpacity=".14" />
+            <path d="M250 188h100" stroke="var(--accent)" strokeOpacity=".6" />
+            <circle cx="300" cy="188" r="2" fill="var(--accent)" />
+
+            <text x="300" y="207" textAnchor="middle" fill="currentColor" opacity=".5">ONE CONTROL RAIL. ENROLL, RESTRICT, AUDIT.</text>
           </>
         )}
       </svg>
