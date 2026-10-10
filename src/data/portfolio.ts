@@ -132,7 +132,7 @@ export const projects: Project[] = [
     kind: "Microservice · Polyglot · AI-augmented",
     summary: "One Python service that replaced years of brittle reporting — now an analytics workspace.",
     description:
-      "Every project reported its own way. I proposed and built a Python microservice whose API [ac]mirrors the underlying libraries directly[/ac] — no wrapper tax, no maintenance overhead. It has since grown into an analytics workspace: a Jupyter runtime embedded in the ERP, Gemini-assisted script generation, and a [hi]graph schema engine[/hi] where datasets inherit instead of duplicate. A 3,000+ case test suite keeps it honest.",
+      "The idea behind [hi]Intelligent Scaffolding[/hi] was to turn a conversational request into deterministic code: generate it, review it, execute it, then register a reusable module. Reporting brought that idea into practice through Gemini-assisted Python inside an embedded Jupyter runtime.",
     tech: ["Python 3.14", "FastAPI", "Jupyter kernel", "Gemini API", "Graph schemas", "Pytest"],
     impact: [
       "Replaced 5+ separate implementations",
@@ -431,13 +431,12 @@ export const philosophy = {
 
 export const orchestration = {
   lead:
-    "The industrial revolution automated manual labour. This one automates [hi]cognitive boilerplate[/hi] — and moves an engineer's value from implementation to orchestration, leaving more attention for architecture, security, and interface.",
-  quote: "When machines automate the routine, the engineer becomes the orchestrator.",
+    "I lead the architecture and review the result. Implementation workloads are steered through Claude Fable and GPT-6 Astra; the quality boundary stays human.",
   squad:
     "For the reporting engine's module presets, four specialists worked as one: frontend, backend, database-schema, and data. Each assembled part of the picture; together they produced the JSON schemas for multi-currency budgeting and the full procurement lifecycle.",
   story: {
     title: "The 100× pivot",
-    text: "Bringing Cursor into an enterprise workflow took a deliberate campaign with the PMs, the CTO, and the CEO. Speed without standards would have been a liability, so the way I work changed with it:",
+    text: "Bringing Cursor into an enterprise workflow took a deliberate campaign with the PMs, the CTO, and the CEO. Automating cognitive boilerplate left more attention for architecture, security, and interface. Speed without standards would have been a liability:",
     points: [
       "Write less boilerplate; spend the time on architecture instead.",
       "Hold the quality line — review and correct every generated output.",

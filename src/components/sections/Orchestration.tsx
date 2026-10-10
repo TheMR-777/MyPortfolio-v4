@@ -1,6 +1,7 @@
-import { Plus } from "lucide-react";
+import { ArrowUpRight, Plus } from "lucide-react";
 import { orchestration } from "../../data/portfolio";
-import { Section, Eyebrow, Heading, Label, Reveal } from "../ui";
+import { usePortfolio } from "../../context/PortfolioContext";
+import { Section, Heading, Label, Reveal } from "../ui";
 import { StyledText } from "../StyledText";
 
 const SPECIALISTS = ["Frontend", "Backend", "DB schema", "Data"];
@@ -68,16 +69,20 @@ function SquadDiagram() {
 }
 
 export function Orchestration() {
+  const { openProject } = usePortfolio();
+
   return (
     <Section id="orchestration">
       <div className="grid gap-7 lg:grid-cols-[1fr_1.05fr] lg:items-end lg:gap-16">
         <Reveal>
-          <Eyebrow>03 / Agentic engineering</Eyebrow>
+          <Label>A note on method</Label>
           <Heading>Directing <em className="text-accent">intelligence</em>,<br />not just writing code.</Heading>
         </Reveal>
         <Reveal delay={.08}>
           <p className="max-w-lg text-[15px] leading-[1.85] text-ink-muted"><StyledText text={orchestration.lead} /></p>
-          <p className="mt-4 font-serif text-xl italic text-ink">{orchestration.quote}</p>
+          <button type="button" onClick={() => openProject("reporting")} className="text-link mt-4 min-h-10">
+            Read the reporting case study <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+          </button>
         </Reveal>
       </div>
 
@@ -89,6 +94,9 @@ export function Orchestration() {
               <p className="mt-3 max-w-md text-xs leading-[1.9] text-plate-muted">{orchestration.squad}</p>
             </div>
             <div className="my-auto pt-2"><SquadDiagram /></div>
+            <p className="sr-only">
+              Conceptual workflow: one brief is coordinated across frontend, backend, database-schema, and data specialists on a shared rail, then synthesized into a schema for explicit human review.
+            </p>
             <p className="border-t border-plate-line px-6 py-3 text-center font-mono text-[8px] uppercase tracking-[.17em] text-plate-faint">Conceptual workflow study / No production data</p>
           </div>
         </Reveal>
@@ -136,7 +144,7 @@ export function Orchestration() {
       <details className="group mt-10 border-y border-line">
         <summary className="flex min-h-14 items-center justify-between gap-4 py-4 text-xs text-ink-muted">
           <span>The stack behind the orchestration <span className="ml-2 font-mono text-[9px] text-ink-faint">/ Models, tools, method</span></span>
-          <Plus className="h-4 w-4 transition-transform group-open:rotate-45" />
+          <Plus aria-hidden="true" className="h-4 w-4 transition-transform group-open:rotate-45" />
         </summary>
         <div className="grid gap-7 pb-7 sm:grid-cols-3 sm:gap-10">
           <div>

@@ -15,7 +15,7 @@ export function Philosophy() {
       <div className="grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
         <div className="min-w-0">
           <Reveal>
-            <Eyebrow>05 / The driving force</Eyebrow>
+            <Eyebrow>04 / The driving force</Eyebrow>
             <Heading>The joy of<br /><em className="text-accent">discovery.</em></Heading>
           </Reveal>
           <Reveal delay={.08}>

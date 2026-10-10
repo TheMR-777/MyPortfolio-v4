@@ -2,13 +2,13 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { projects, type Project } from "../data/portfolio";
 
 export const sections = [
-  { id: "mode", label: "Mixed mode", nav: "Mode", description: "The Ink & Paper experiment" },
-  { id: "work", label: "Selected work", nav: "Work", description: "Enterprise systems and architecture" },
-  { id: "orchestration", label: "Agentic engineering", nav: "Orchestration", description: "Directing AI agents, with the quality line held" },
-  { id: "craft", label: "Personal craft", nav: "Craft", description: "Open-source tools and small experiments" },
-  { id: "philosophy", label: "Philosophy", nav: "Philosophy", description: "Curiosity, discovery, and restraint" },
+  { id: "mode", ordinal: "01", label: "Mixed mode", nav: "Mode", description: "The Ink & Paper experiment" },
+  { id: "work", ordinal: "02", label: "Selected work", nav: "Work", description: "Enterprise systems and architecture" },
+  { id: "orchestration", label: "A note on method", nav: "Method", description: "Directing AI agents, with the quality line held" },
+  { id: "craft", ordinal: "03", label: "Personal craft", nav: "Craft", description: "Open-source tools and small experiments" },
+  { id: "philosophy", ordinal: "04", label: "Philosophy", nav: "Philosophy", description: "Curiosity, discovery, and restraint" },
   { id: "skills", label: "Skills & depth", nav: "Skills", description: "Languages and engineering fundamentals" },
-  { id: "journey", label: "Experience & journey", nav: "Journey", description: "The path from curiosity to architecture" },
+  { id: "journey", ordinal: "05", label: "Experience & journey", nav: "Journey", description: "The path from curiosity to architecture" },
   { id: "vision", label: "The longer view", nav: "Vision", description: "Why the work matters, beyond the work" },
   { id: "contact", label: "Say hello", nav: "Contact", description: "Start a conversation" },
 ];

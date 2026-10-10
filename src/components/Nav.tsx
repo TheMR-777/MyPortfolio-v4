@@ -93,7 +93,7 @@ export function Nav() {
                 initial={reduceMotion ? false : { opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: reduceMotion ? 0 : index * .035 }}
                 onClick={(event) => navigate(event, section.id)}
               >
-                <span className="font-mono text-[10px] text-plate-faint">0{index + 1}</span>
+                <span aria-hidden="true" className="w-4 font-mono text-[10px] text-plate-faint">{section.ordinal ?? "—"}</span>
                 <span className="flex-1 text-sm">{section.label}</span>
                 <ArrowUpRight className="h-4 w-4 text-accent" />
               </motion.a>

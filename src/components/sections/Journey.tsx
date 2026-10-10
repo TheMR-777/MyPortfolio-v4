@@ -146,7 +146,7 @@ export function Journey() {
 
   return (
     <Section id="journey" className="pt-8 sm:pt-14">
-      <Reveal><Eyebrow>06 / Experience</Eyebrow><Heading>Where the skills<br />were <em className="text-accent">tested.</em></Heading></Reveal>
+      <Reveal><Eyebrow>05 / Experience</Eyebrow><Heading>Where the skills<br />were <em className="text-accent">tested.</em></Heading></Reveal>
 
       <div className="mt-10 space-y-4">
         {experiences.map((experience, index) => (

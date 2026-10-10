@@ -2,6 +2,7 @@ export type StudyCategory = "Platforms" | "Infrastructure" | "Security" | "Simul
 export type CaseStudy = {
   category: StudyCategory;
   role: string;
+  collaboration?: string;
   period: string;
   thesis: string;
   challenge: string;
@@ -48,10 +49,11 @@ export const caseStudies: Partial<Record<string, CaseStudy>> = {
   reporting: {
     category: "Infrastructure",
     role: "Proposer, architect & lead engineer",
+    collaboration: "I led engineering, architecture and review. Implementation workloads were steered through Claude Fable and GPT-6 Astra.",
     period: "2025 – present",
     thesis: "Many systems. One reporting language.",
     challenge: "More than five services had independent, brittle reporting implementations. Output differed across products and customization was difficult. Finance teams needed ad-hoc analysis, audit trails, and bespoke visuals, but every request queued behind an engineering release.",
-    approach: "A Python microservice consumed over HTTP by .NET, Angular and Laravel systems, with an API that stays close to ReportLab, OpenPyXL and Pandas instead of wrapping them. It then grew into an analytics workspace: an embedded Jupyter runtime, Gemini-assisted script generation, graph-based schema inheritance, immutable audit snapshots, and a large automated test suite.",
+    approach: "One Python microservice gives .NET, Angular and Laravel systems an HTTP boundary for PDF, Excel and CSV output. Its API mirrors ReportLab, OpenPyXL and Pandas directly, keeping the custom wrapper surface small. The service grew into an analytics workspace; shared graph definitions let new reports inherit datasets rather than duplicate them.",
     decisions: [
       { title: "Choose the right ecosystem", detail: "Python's reporting and data libraries fit the problem better than forcing every task into the existing application language." },
       { title: "Let schemas inherit", detail: "Moving from rigid JSON definitions to a directed graph model removed duplication and saved the accounting team significant time." },

@@ -15,7 +15,7 @@ export function Craft() {
     <div className="plate mx-3 rounded-[2rem] border-0 sm:mx-6 sm:rounded-[2.5rem]">
       <Section id="craft" className="py-16 sm:py-24">
         <Reveal>
-          <Eyebrow className="text-plate-faint">04 / Personal craft &amp; open source</Eyebrow>
+          <Eyebrow className="text-plate-faint">03 / Personal craft &amp; open source</Eyebrow>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <Heading>Built because<br />I <em className="text-accent">wanted</em> it to exist.</Heading>
             <p className="max-w-[18rem] text-[13px] leading-[1.85] text-plate-muted">None of these were commissioned. Each one takes something in and gives something genuinely new back — which is the test.</p>

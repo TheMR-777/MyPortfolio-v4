@@ -55,6 +55,7 @@ function CaseContent({ project }: { project: Project }) {
         <aside>
           <dl className="grid grid-cols-2 gap-5 md:grid-cols-1 md:gap-6">
             {study && <><div><dt><Label>My role</Label></dt><dd className="mt-2 text-xs leading-relaxed text-ink-muted">{study.role}</dd></div><div><dt><Label>Timeframe</Label></dt><dd className="mt-2 text-xs leading-relaxed text-ink-muted">{study.period}</dd></div></>}
+            {study?.collaboration && <div className="col-span-2 md:col-span-1"><dt><Label>How it was built</Label></dt><dd className="mt-2 text-xs leading-[1.8] text-ink-muted">{study.collaboration}</dd></div>}
             <div><dt><Label>Built with</Label></dt><dd className="mt-2 space-y-1.5 font-mono text-[10px] leading-relaxed text-ink-muted">{project.tech.map((tech) => <span key={tech} className="block">{tech}</span>)}</dd></div>
             <div><dt><Label>Access</Label></dt><dd className="mt-2 text-xs text-ink-muted">{project.personal ? "Open source" : "Private enterprise work"}</dd></div>
           </dl>
